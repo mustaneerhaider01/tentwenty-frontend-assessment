@@ -88,8 +88,9 @@ The timesheets API is backed by static mock data in `data/index.ts`:
 - `mockTimesheets`
 - `mockTimesheetEntries`
 - `mockUsers`
+- `mockProjects`
 
-The endpoint `app/api/getWeeklyTimesheets/route.ts` computes:
+The endpoints compute derived fields like:
 
 - `totalHours` by summing `hours` for the selected timesheet entries
 - `status` using the logic from `app/constants/index.ts`:
@@ -99,14 +100,10 @@ The endpoint `app/api/getWeeklyTimesheets/route.ts` computes:
 
 No database is involved; refreshing the app resets nothing because everything is local/static.
 
-### Auth guard (Next.js 16 proxy/middleware convention)
+### API routes
 
-There is an auth-guard implemented in `proxy.ts` using:
-
-- `export async function proxy(req: NextRequest) { ... }`
-- `export const config = { matcher: ["/"] }`
-
-Per the Next.js 16 convention used here, the runtime is expected to execute this guard from `proxy.ts` (with the function named `proxy`) and apply it to the `/` route matcher.
+- `GET /api/getWeeklyTimesheets?page=1&limit=5`: paginated weekly timesheets list
+- `GET /api/timesheets/[id]`: a single timesheet with computed `totalHours`, `status`, and its entries (each entry is enriched with its project)
 
 ### Routes implemented
 
@@ -114,7 +111,7 @@ Current user flow/routes:
 
 - `GET /login`: login screen (redirects away if already authenticated)
 - `GET /`: timesheets list (table) + pagination driven by query params (`page`, `limit`)
-- `GET /timesheet/[id]`: placeholder page (not yet fully implemented)
+- `GET /timesheet/[id]`: timesheet details (progress toward 40 hours) + entries grouped by date, with an add/update entry modal
 
 ### Production URL assumptions
 
@@ -127,4 +124,4 @@ If you deploy outside Vercel, you may need to adjust this base URL logic.
 
 ## Time spent
 
-2 days
+Two and a half day spent on developing and refactoring this assessment project to ensure best practices.
