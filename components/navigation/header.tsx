@@ -8,7 +8,7 @@ function Header() {
   const { data: session } = useSession();
 
   return (
-    <header className="sticky top-0 z-0 w-full h-[68px] px-3 sm:px-4 flex items-center bg-white">
+    <header className="sticky top-0 z-50 w-full h-[68px] px-3 sm:px-4 flex items-center bg-white">
       <Link className="text-gray-900 text-2xl font-semibold" href="/">
         ticktock
       </Link>
