@@ -41,7 +41,7 @@ export default async function TimesheetsPage({
           Your Timesheets
         </CardTitle>
         <div className="flex gap-2.5 mt-5">
-          <DateRangePicker placeholder="Date Range" className="w-[152px]" />
+          <DateRangePicker placeholder="Date Range" className="min-w-[152px]" />
           <Select>
             <SelectTrigger className="w-[140px] pl-3 pr-2.5 py-5">
               <SelectValue placeholder="Status" className="text-gray-900" />
