@@ -35,36 +35,34 @@ export default async function TimesheetsPage({
   );
 
   return (
-    <div>
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-gray-900 text-2xl font-bold">
-            Your Timesheets
-          </CardTitle>
-          <div className="flex gap-2.5 mt-5">
-            <DateRangePicker placeholder="Date Range" className="w-[152px]" />
-            <Select>
-              <SelectTrigger className="w-[140px] pl-3 pr-2.5 py-5">
-                <SelectValue placeholder="Status" className="text-gray-900" />
-              </SelectTrigger>
-              <SelectContent>
-                {Object.entries(TIMESHEET_STATUS).map(([k, v]) => (
-                  <SelectItem key={k} value={String(v)}>
-                    {v}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <DataTable
-            columns={timesheetColumns}
-            data={timesheets}
-            totalPages={pagination?.totalPages}
-          />
-        </CardContent>
-      </Card>
-    </div>
+    <Card>
+      <CardHeader>
+        <CardTitle className="text-gray-900 text-2xl font-bold">
+          Your Timesheets
+        </CardTitle>
+        <div className="flex gap-2.5 mt-5">
+          <DateRangePicker placeholder="Date Range" className="w-[152px]" />
+          <Select>
+            <SelectTrigger className="w-[140px] pl-3 pr-2.5 py-5">
+              <SelectValue placeholder="Status" className="text-gray-900" />
+            </SelectTrigger>
+            <SelectContent>
+              {Object.entries(TIMESHEET_STATUS).map(([k, v]) => (
+                <SelectItem key={k} value={String(v)}>
+                  {v}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      </CardHeader>
+      <CardContent>
+        <DataTable
+          columns={timesheetColumns}
+          data={timesheets}
+          totalPages={pagination?.totalPages}
+        />
+      </CardContent>
+    </Card>
   );
 }

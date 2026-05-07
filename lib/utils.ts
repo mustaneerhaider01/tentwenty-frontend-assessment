@@ -1,3 +1,4 @@
+import type { Project, TimesheetEntry } from "@/types/models";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -11,4 +12,29 @@ export function getBaseUrl() {
   }
 
   return "http://localhost:3000";
+}
+
+export function groupTimesheetEntriesByDate(
+  entries: (TimesheetEntry & { project: Project })[],
+) {
+  return Object.values(
+    entries.reduce(
+      (acc, entry) => {
+        if (!acc[entry.date]) {
+          acc[entry.date] = {
+            date: entry.date,
+            entries: [],
+          };
+        }
+
+        acc[entry.date].entries.push(entry);
+
+        return acc;
+      },
+      {} as Record<
+        string,
+        { date: string; entries: (TimesheetEntry & { project: Project })[] }
+      >,
+    ),
+  );
 }

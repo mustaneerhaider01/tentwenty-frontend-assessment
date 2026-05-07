@@ -1,4 +1,4 @@
-import type { AppUser, Timesheet } from "./models";
+import type { AppUser, Project, Timesheet, TimesheetEntry } from "./models";
 
 export interface EnrichedTimesheet extends Timesheet {
   totalHours: number;
@@ -13,5 +13,13 @@ export interface GetWeeklyTimesheetsResponse {
     limit: number;
     totalItems: number;
     totalPages: number;
+  };
+}
+
+export interface GetTimesheetWithEntriesResponse {
+  data: Timesheet & {
+    totalHours: number;
+    status: string;
+    entries: (TimesheetEntry & { project: Project })[];
   };
 }
