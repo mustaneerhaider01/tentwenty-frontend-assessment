@@ -52,6 +52,7 @@ function AuthForm() {
     }
 
     toast.dismiss(toastId);
+    toast.success("You are signed in now");
     setIsSubmitting(false);
     router.push("/");
   };
