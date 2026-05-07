@@ -127,7 +127,7 @@ function EntryList({ entries }: EntryListProps) {
               {group.entries.map((entry) => (
                 <div
                   key={entry.id}
-                  className="flex items-center justify-between rounded-lg border border-gray-200 bg-white px-3 py-2.5 h-11"
+                  className="flex items-center justify-between rounded-lg border border-gray-200 bg-white px-3 py-2.5 min-h-11"
                 >
                   {/* TASK */}
                   <div className="font-medium text-gray-900">{entry.task}</div>
