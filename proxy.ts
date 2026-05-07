@@ -12,5 +12,5 @@ export async function proxy(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/"],
+  matcher: ["/", "/timesheet/:path*"],
 };
