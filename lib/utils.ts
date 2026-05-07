@@ -6,14 +6,6 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function getBaseUrl() {
-  if (process.env.NODE_ENV === "production") {
-    return process.env.VERCEL_URL!;
-  }
-
-  return "http://localhost:3000";
-}
-
 export function groupTimesheetEntriesByDate(entries: EnrichedTimesheetEntry[]) {
   return Object.values(
     entries.reduce(

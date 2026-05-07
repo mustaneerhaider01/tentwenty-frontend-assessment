@@ -113,15 +113,6 @@ Current user flow/routes:
 - `GET /`: timesheets list (table) + pagination driven by query params (`page`, `limit`)
 - `GET /timesheet/[id]`: timesheet details (progress toward 40 hours) + entries grouped by date, with an add/update entry modal
 
-### Production URL assumptions
-
-The API client (`lib/api/timesheets.ts`) uses `lib/utils.ts#getBaseUrl()`:
-
-- in production, it expects `process.env.VERCEL_URL`
-- locally, it falls back to `http://localhost:3000`
-
-If you deploy outside Vercel, you may need to adjust this base URL logic.
-
 ## Time spent
 
 Two and a half day spent on developing and refactoring this assessment project to ensure best practices.
