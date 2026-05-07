@@ -177,14 +177,14 @@ export function DataTable<TData, TValue>({
           onPageChange={(nextPage) => table.setPageIndex(nextPage - 1)}
           previousLabel={
             <div className="flex items-center gap-1">
-              <ChevronLeftIcon className="h-4 w-4 text-gray-500" />
+              <ChevronLeftIcon className="h-4 w-4 text-gray-500 sm:hidden" />
               <span className="hidden sm:inline">Previous</span>
             </div>
           }
           nextLabel={
             <div className="flex items-center gap-1">
               <span className="hidden sm:inline">Next</span>
-              <ChevronRightIcon className="h-4 w-4 text-gray-500" />
+              <ChevronRightIcon className="h-4 w-4 text-gray-500 sm:hidden" />
             </div>
           }
           extraClassName="justify-content-center mt-6 mb-1"
