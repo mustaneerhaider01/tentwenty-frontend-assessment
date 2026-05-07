@@ -1,36 +1,130 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# tentwenty-frontend-assessment
 
-## Getting Started
+## Setup instructions
 
-First, run the development server:
+### 1) Prerequisites
+
+- Node.js **20.9+** (Next.js 16 minimum; Node.js 18 is not supported)
+- TypeScript **5.1+** (Next.js 16 minimum; this repo uses TypeScript 5)
+
+### 2) Install dependencies
+
+```bash
+npm install
+```
+
+### 3) Configure environment variables
+
+This app uses NextAuth with a JWT session strategy. You must provide:
+
+- `AUTH_SECRET` (required)  
+  Used to sign/verify the NextAuth JWT.
+
+Example (macOS/Linux):
+
+```bash
+export AUTH_SECRET="dev-secret"
+```
+
+### 4) Run the development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open: `http://localhost:3000`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 5) Login (mock credentials)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Authentication is configured as a **Credentials** provider and uses the in-repo mock users from `data/index.ts`. Use one of the following:
 
-## Learn More
+```text
+john.doe@company.com / hashed_password_1
+sarah.khan@company.com / hashed_password_2
+ali.ahmed@company.com / hashed_password_3
+```
 
-To learn more about Next.js, take a look at the following resources:
+### 6) Useful scripts
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `npm run lint`
+- `npm run build`
+- `npm run start`
+- `npm run test`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Frameworks/libraries used
 
-## Deploy on Vercel
+### App framework
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Next.js (App Router)**: routes under `app/` (including route groups like `(dashboard)`).
+- **React 19** (with **TypeScript**).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Authentication / sessions
+
+- **NextAuth.js** (`next-auth`): Credentials-based login and JWT sessions.
+
+### Styling/UI
+
+- **Tailwind CSS v4** (via `@import "tailwindcss"` in `app/globals.css`)
+- **shadcn UI** (`shadcn`, plus local components under `components/ui/`)
+- **Radix UI** (`radix-ui`) primitives used inside UI components
+- **class-variance-authority** (`class-variance-authority`) for variant styling
+- **clsx** and **tailwind-merge** for class name merging (`cn()` helper in `lib/utils.ts`)
+- **lucide-react** for icons
+- **sonner** for toast notifications (see `Toaster` usage in `app/layout.tsx`)
+
+### Data/table & UI utilities
+
+- **@tanstack/react-table** for the timesheets table (sorting + row rendering)
+- **react-responsive-pagination** for the bootstrap-themed pagination UI
+- **date-fns** for date formatting in the table
+- **zod** and **react-hook-form** for login form validation (`components/auth/auth-form.tsx`)
+
+## Assumptions or notes
+
+### Mock (in-memory) backend data
+
+The timesheets API is backed by static mock data in `data/index.ts`:
+
+- `mockTimesheets`
+- `mockTimesheetEntries`
+- `mockUsers`
+
+The endpoint `app/api/getWeeklyTimesheets/route.ts` computes:
+
+- `totalHours` by summing `hours` for the selected timesheet entries
+- `status` using the logic from `app/constants/index.ts`:
+  - `Missing` when `totalHours === 0`
+  - `Incomplete` when `0 < totalHours < 40`
+  - `Completed` when `totalHours >= 40`
+
+No database is involved; refreshing the app resets nothing because everything is local/static.
+
+### Auth guard (Next.js 16 proxy/middleware convention)
+
+There is an auth-guard implemented in `proxy.ts` using:
+
+- `export async function proxy(req: NextRequest) { ... }`
+- `export const config = { matcher: ["/"] }`
+
+Per the Next.js 16 convention used here, the runtime is expected to execute this guard from `proxy.ts` (with the function named `proxy`) and apply it to the `/` route matcher.
+
+### Routes implemented
+
+Current user flow/routes:
+
+- `GET /login`: login screen (redirects away if already authenticated)
+- `GET /`: timesheets list (table) + pagination driven by query params (`page`, `limit`)
+- `GET /timesheet/[id]`: placeholder page (not yet fully implemented)
+
+### Production URL assumptions
+
+The API client (`lib/api/timesheets.ts`) uses `lib/utils.ts#getBaseUrl()`:
+
+- in production, it expects `process.env.VERCEL_URL`
+- locally, it falls back to `http://localhost:3000`
+
+If you deploy outside Vercel, you may need to adjust this base URL logic.
+
+## Time spent
+
+2 days
