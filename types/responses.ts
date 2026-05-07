@@ -16,10 +16,14 @@ export interface GetWeeklyTimesheetsResponse {
   };
 }
 
+export interface EnrichedTimesheetEntry extends TimesheetEntry {
+  project: Project;
+}
+
 export interface GetTimesheetWithEntriesResponse {
   data: Timesheet & {
     totalHours: number;
     status: string;
-    entries: (TimesheetEntry & { project: Project })[];
+    entries: EnrichedTimesheetEntry[];
   };
 }
