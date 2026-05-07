@@ -161,8 +161,17 @@
   @apply bg-[#F9FAFB]! text-[#1447E6]! border! border-[#E5E7EB]!;
 }
 
+.page-item:has([aria-label="Previous"]),
+.page-item:has([aria-label="Next"]) {
+  @apply min-h-[38px]!;
+}
+
+.page-item:has([aria-label="Next"]) .page-link {
+  @apply h-full!;
+}
+
 .page-item:has([aria-label="Previous"]) .page-link {
-  @apply rounded-tl-xl! rounded-bl-xl!;
+  @apply rounded-tl-xl! rounded-bl-xl! h-[38px]!;
 }
 
 .page-item:has([aria-label="Next"]) .page-link {
